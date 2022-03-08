@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Message;
@@ -23,7 +24,9 @@ public class MessageServiceImp implements MessageService {
 		MessageRepository rp;
 		
 		@Override
-		@CachePut(value = REDIS_CACHE_VALUE, key = "#message.id")
+		//@CachePut(value = REDIS_CACHE_VALUE, key = "#message.id")
+
+		@CacheEvict(value = REDIS_CACHE_VALUE, allEntries = true)
 		public boolean saveMessage(Message message) {
 			rp.save(message);
 			return true;
@@ -52,14 +55,17 @@ public class MessageServiceImp implements MessageService {
 		}
 
 		@Override
-		@CacheEvict(value = REDIS_CACHE_VALUE, key = "#id")
+		@Caching(evict = { @CacheEvict(value = REDIS_CACHE_VALUE, key = "#id"),
+				@CacheEvict(value = REDIS_CACHE_VALUE, allEntries = true) })
+		
 		public boolean deleteMessage(int id) {
 			 rp.deleteById(id);
 			 return true;
 		}
 
 		@Override
-		@CachePut(value = REDIS_CACHE_VALUE , key = "#message.id")
+	//	@CachePut(value = REDIS_CACHE_VALUE , key = "#id")
+		@CacheEvict(value = REDIS_CACHE_VALUE, allEntries = true)
 		public boolean updateUser(int id, Message message) {
 			Message message1 =findMessageById(id);
 		message1.setUserName(message.getUserName());
