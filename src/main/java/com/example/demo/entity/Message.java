@@ -16,16 +16,16 @@ public class Message implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String userName;
+ 
     private String message;
 	@Override
 	public String toString() {
-		return "Message [id=" + id + ", userName=" + userName + ", message=" + message + "]";
+		return "Message [id=" + id + " message=" + message + "]";
 	}
-	public Message(int id, String userName, String message) {
+	public Message(int id,  String message) {
 		super();
 		this.id = id;
-		this.userName = userName;
+		
 		this.message = message;
 	}
     public Message() {}
@@ -35,12 +35,7 @@ public class Message implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+
 	public String getMessage() {
 		return message;
 	}
