@@ -68,7 +68,7 @@ public class MessageServiceImp implements MessageService {
 		@CacheEvict(value = REDIS_CACHE_VALUE, allEntries = true)
 		public boolean updateUser(int id, Message message) {
 			Message message1 =findMessageById(id);
-		message1.setUserName(message.getUserName());
+	
 		message1.setMessage(message.getMessage());	
 			rp.save( message1);
 			return true;
